@@ -6,7 +6,8 @@ const { mdLinks,
   isAbsolute,
   resolverRuta,
   readingFiles,
-  isMdFile
+  isMdFile,
+  getLinks
 } = require('../index.js');
 
 
@@ -55,7 +56,7 @@ describe('Deberia convertir a absoluta')
   })
 
 it('debería convertir a ruta absoluta', () => {
-  expect(resolverRuta('./holo.txt')).toBe("C:\\Users\\chica\\OneDrive\\Documentos\\Md-links\\DEV001-md-links\\.holo.txt");
+  expect(resolverRuta('./holo.txt')).toBe("C:\\Users\\chica\\OneDrive\\Documentos\\Md-links\\DEV001-md-links\\holo.txt");
 });
 
 //funcion readFile
@@ -75,5 +76,10 @@ it('isMdFile debe identificar si la extension es md',()=>{
 it('Deberia rechazar si la extension no es md' , ()=>{
   expect(isMdFile('C:\\Users\\chica\\OneDrive\\Documentos\\Md-links\\DEV001-md-links\\.prueba.md')).toBe(true);
 }) 
+//funcion getLinks
+describe('testeo de funcion getLinks')
+it('getLinks es una funcion',() =>{
+expect(typeof getLinks).toBe('function')
+} )
 
 

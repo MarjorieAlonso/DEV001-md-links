@@ -1,3 +1,4 @@
+
 const fs = require('fs');
 const path = require('path');
 const esRuta = (route) => fs.existsSync(route)
@@ -18,6 +19,32 @@ const readingFiles = (route) => new Promise((resolve, reject) => {
   })
 });
 const isMdFile = (route) => path.extname(route) === '.md'
+
+const getLinks = (documento) => {
+  return new Promise((resolve, reject) => {
+    const links = [];
+    readingFiles(documento).then((file) => {
+      const regex =  /\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g;
+      let match = regex.exec(file);
+      while (match !== null) {
+        links.push({
+          href: match[2],
+          text: match[1],
+          file: documento,
+        });
+        match = regex.exec(file);
+      }
+      resolve(links);
+      console.log(links);
+    })
+      .catch((error) => reject(error));
+  });
+};
+const validateLinks = (urls) => Promise.all(urls.map((arrayLinks) => fetch(arrayLinks.href)
+  .then((resolve) => { }
+  )))
+  
+
 const route = './prueba.md';
 
 // eslint-disable-next-line no-unused-vars
@@ -36,28 +63,37 @@ const mdLinks = (path, options) => {
         console.log('este archivo es .md')
       } else {
         reject('esto no es un archivo .md')
-      } 
+      }
       readingFiles(route)
-        .then(res => console.log(res))
-        .catch(error => { reject(error) })
-
-   
+        .then((res)=>{
+          (res)
+        })
+       // .catch(error => { reject(error) })
+      getLinks(route)
+        .then((resultado) => {
+       //  console.log (resultado)
+       (resultado)
+        });
     }
-
   });
 
-  
-     // si no existe la ruta rechazar la promesa
-/*      else {reject('la ruta no existe')
-}
- */
-}
-console.log(mdLinks(route));
+
+  // si no existe la ruta rechazar la promesa
+  /*      else{reject('la ruta no existe')
+  } */
+ 
+};
+mdLinks(route).then((respuesta) => {
+ console.log (respuesta);
+});
+
+//console.log(mdLinks(route));
 module.exports = {
   mdLinks,
   isFile,
   isAbsolute,
   resolverRuta,
   readingFiles,
-  isMdFile
+  isMdFile,
+  getLinks,
 };
