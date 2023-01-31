@@ -24,7 +24,7 @@ const getLinks = (documento) => {
   return new Promise((resolve, reject) => {
     const links = [];
     readingFiles(documento).then((file) => {
-      const regex =  /\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g;
+      const regex = /\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g;
       let match = regex.exec(file);
       while (match !== null) {
         links.push({
@@ -41,18 +41,18 @@ const getLinks = (documento) => {
   });
 }
 const validateLinks = (urls) => Promise.all(urls.map((links) => fetch(links.href)
-  .then((resolve) => { 
-    const objetoLinks = {
+  .then((resolve) => {
+    const objetoLinks = {// funcion para duplicar la const de link, que tire todo lo de la const, mas el status
       ...links,
-      status:resolve.status,
-      ok:resolve.ok ? 'ok':'fail'
+      status: resolve.status,
+      ok: resolve.ok ? 'ok' : 'fail'
     }
     return objetoLinks;
-   
+
   })
 )
-  )
-  
+)
+
 
 const route = './prueba.md';
 
@@ -74,14 +74,22 @@ const mdLinks = (path, options) => {
         reject('esto no es un archivo .md')
       }
       readingFiles(route)
-        .then((res)=>{
+        .then((res) => {
           (res)
         })
-       // .catch(error => { reject(error) })
+
       getLinks(route)
         .then((resultado) => {
-       (resultado)
+          validateLinks(resultado).then((respuesta) => {
+            console.log(respuesta)
+          })
         });
+
+      // .catch(error => { reject(error) })
+      /*  getLinks(route)
+         .then((resultado) => {
+        (resultado)
+         }); */
     }
   });
 
@@ -89,15 +97,8 @@ const mdLinks = (path, options) => {
 
 };
 
-getLinks(route)
-      .then((resultado) => {
-     validateLinks(resultado).then((respuesta)=>{
-      console.log(respuesta)
-     })
-      });
-  
 mdLinks(route).then((respuesta) => {
- console.log (respuesta);
+  console.log(respuesta);
 });
 
 //console.log(mdLinks(route));
