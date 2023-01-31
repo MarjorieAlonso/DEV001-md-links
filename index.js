@@ -39,10 +39,19 @@ const getLinks = (documento) => {
     })
       .catch((error) => reject(error));
   });
-};
-const validateLinks = (urls) => Promise.all(urls.map((arrayLinks) => fetch(arrayLinks.href)
-  .then((resolve) => { }
-  )))
+}
+const validateLinks = (urls) => Promise.all(urls.map((links) => fetch(links.href)
+  .then((resolve) => { 
+    const objetoLinks = {
+      ...links,
+      status:resolve.status,
+      ok:resolve.ok ? 'ok':'fail'
+    }
+    return objetoLinks;
+   
+  })
+)
+  )
   
 
 const route = './prueba.md';
@@ -71,18 +80,22 @@ const mdLinks = (path, options) => {
        // .catch(error => { reject(error) })
       getLinks(route)
         .then((resultado) => {
-       //  console.log (resultado)
        (resultado)
         });
     }
   });
 
 
-  // si no existe la ruta rechazar la promesa
-  /*      else{reject('la ruta no existe')
-  } */
- 
+
 };
+
+getLinks(route)
+      .then((resultado) => {
+     validateLinks(resultado).then((respuesta)=>{
+      console.log(respuesta)
+     })
+      });
+  
 mdLinks(route).then((respuesta) => {
  console.log (respuesta);
 });
