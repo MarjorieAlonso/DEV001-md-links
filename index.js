@@ -35,7 +35,7 @@ const getLinks = (documento) => {
         match = regex.exec(file);
       }
       resolve(links);
-      console.log(links);
+      //console.log(links);
     })
       .catch((error) => reject(error));
   });
@@ -52,8 +52,6 @@ const validateLinks = (urls) => Promise.all(urls.map((links) => fetch(links.href
   })
 )
 )
-
-
 const route = './prueba.md';
 
 // eslint-disable-next-line no-unused-vars
@@ -81,11 +79,11 @@ const mdLinks = (path, options) => {
       getLinks(route)
         .then((resultado) => {
           validateLinks(resultado).then((respuesta) => {
-            console.log(respuesta)
+            resolve(respuesta)
           })
         });
 
-      // .catch(error => { reject(error) })
+       //.catch(error => { reject(error) })
       /*  getLinks(route)
          .then((resultado) => {
         (resultado)
@@ -101,7 +99,7 @@ mdLinks(route).then((respuesta) => {
   console.log(respuesta);
 });
 
-//console.log(mdLinks(route));
+
 module.exports = {
   mdLinks,
   isFile,
