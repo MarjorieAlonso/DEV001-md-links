@@ -50,9 +50,14 @@ const validateLinks = (urls) => Promise.all(urls.map((links) => fetch(links.href
     return objetoLinks;
 
   })
-)
-)
-const route = './prueba.md';
+  .catch (() => { return { 
+  ...links, 
+  status:'not found',
+     ok: 'fail' } })
+  
+))
+
+const route = './README.md';
 
 // eslint-disable-next-line no-unused-vars
 const mdLinks = (path, options) => {
@@ -81,9 +86,14 @@ const mdLinks = (path, options) => {
           validateLinks(resultado).then((respuesta) => {
             resolve(respuesta)
           })
+            .catch((error) => {
+              console.log(error)
+            });
         });
-
-       //.catch(error => { reject(error) })
+      /*  .catch((error)=>{
+         console.log(error)
+       }); */
+      //.catch(error => { reject(error) })
       /*  getLinks(route)
          .then((resultado) => {
         (resultado)
