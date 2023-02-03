@@ -57,31 +57,31 @@ const validateLinks = (urls) => Promise.all(urls.map((links) => fetch(links.href
   
 ))
 
-const route = './README.md';
+//const route = './README.md';
 
 // eslint-disable-next-line no-unused-vars
 const mdLinks = (path, options) => {
   return new Promise((resolve, reject) => {
     // identificar si la ruta existe
     if (esRuta(path)) {
-      const absolutePath = isAbsolute(path) ? route : resolverRuta(route); // si es relativa convertirla
+      const absolutePath = isAbsolute(path) ? path : resolverRuta(path); // si es relativa convertirla
       if (isFile(absolutePath)) {
         console.log('esto es un archivo')
       }
       else {
         reject('Esto no es un archivo')
       }
-      if (isMdFile(route)) {
+      if (isMdFile(path)) {
         console.log('este archivo es .md')
       } else {
         reject('esto no es un archivo .md')
       }
-      readingFiles(route)
+      readingFiles(path)
         .then((res) => {
           (res)
         })
 
-      getLinks(route)
+      getLinks(path)
         .then((resultado) => {
           validateLinks(resultado).then((respuesta) => {
             resolve(respuesta)
@@ -105,9 +105,9 @@ const mdLinks = (path, options) => {
 
 };
 
-mdLinks(route).then((respuesta) => {
+/* mdLinks(path).then((respuesta) => {
   console.log(respuesta);
-});
+}); */
 
 
 module.exports = {
