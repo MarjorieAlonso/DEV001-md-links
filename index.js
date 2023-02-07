@@ -80,8 +80,8 @@ const mdLinks = (path, options) => {
         .then((res) => {
           (res)
         })
-
-      getLinks(path)
+      if (options.validate==true){
+        getLinks(path)
         .then((resultado) => {
           validateLinks(resultado).then((respuesta) => {
             resolve(respuesta)
@@ -90,14 +90,16 @@ const mdLinks = (path, options) => {
               console.log(error)
             });
         });
-      /*  .catch((error)=>{
-         console.log(error)
-       }); */
-      //.catch(error => { reject(error) })
-      /*  getLinks(route)
-         .then((resultado) => {
-        (resultado)
-         }); */
+      }
+      else {
+        getLinks(path)
+        .then((resultado)=>{
+          resolve(resultado)
+
+        })
+
+      }
+     
     }
   });
 
@@ -105,9 +107,7 @@ const mdLinks = (path, options) => {
 
 };
 
-/* mdLinks(path).then((respuesta) => {
-  console.log(respuesta);
-}); */
+
 
 
 module.exports = {
