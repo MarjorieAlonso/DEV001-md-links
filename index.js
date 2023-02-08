@@ -56,7 +56,21 @@ const validateLinks = (urls) => Promise.all(urls.map((links) => fetch(links.href
      ok: 'fail' } })
   
 ))
-
+//links totales
+const totalStats =(links)=>{
+  const totalLinks= links.length;
+  return(totalLinks);
+};
+//links rotos 
+const statBroken = (links)=>{
+  const brokenLinks = links.filter((link)=>link.message ==='fail');
+  return(brokenLinks.length);
+};
+//links unicos 
+const statUnico= (links)=>{
+  const linksunicos= [...new Set(links.map((link)=> link.href))];
+  return (linksunicos.length)
+}
 //const route = './README.md';
 
 // eslint-disable-next-line no-unused-vars
@@ -118,4 +132,7 @@ module.exports = {
   readingFiles,
   isMdFile,
   getLinks,
+  totalStats,
+  statBroken,
+  statUnico
 };
